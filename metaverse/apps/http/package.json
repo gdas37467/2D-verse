@@ -1,0 +1,21 @@
+{
+  "name": "http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --tsconfig=tsconfig.json",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "@types/express": "^5.0.0",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "typescript": "^5.6.3",
+    "zod": "^3.23.8"
+  }
+}

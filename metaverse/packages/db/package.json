@@ -1,0 +1,29 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "description": "",
+  
+  "exports": {
+    "./client": "./src/index.ts"
+  },
+  "scripts": {
+    "build" : "tsc -b",
+    "generate": "prisma generate"
+      
+    
+  },
+  "keywords": [],
+  "author": "",
+ 
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@prisma/client": "latest" 
+  }
+
+}
