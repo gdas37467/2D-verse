@@ -42,7 +42,7 @@ export  class User{
                 }
                 
                 this.userId = userId
-                console.log( "userId"  +  this.userId)
+                // console.log( "userId"  +  this.userId)
                 const space = await client.space.findFirst({
                     where: {
                         id: spaceId
@@ -55,20 +55,25 @@ export  class User{
                 }
                 
                 this.spaceId = spaceId
-                console.log("space " + spaceId)
+                // console.log("space " + spaceId)
                 RoomManager.getInstance().addUser(spaceId, this);
                 this.x = Math.floor(Math.random() * space?.width);
                 this.y  = Math.floor(Math.random() * space?.height);
-                console.log("spawned at x " + this.x)
-                console.log("spawned at y " + this.y)
+                // console.log("spawned at x " + this.x)
+                // console.log("spawned at y " + this.y)
                 this.send({
                     type: "space-joined",
                     payload: {
+                        userId : this.userId,
                         spawn: {
                             x: this.x,
                             y: this.y
                         },
-                        users: RoomManager.getInstance().rooms.get(spaceId)?.filter(x => x.id !== this.id)?.map((u) => ({id: u.id})) ?? []
+                        users: RoomManager.getInstance().rooms.get(spaceId)?.filter(x => x.id !== this.id)?.map((u) => ({
+                            userId : u.userId,
+                            x : u.x,
+                            y:u.y
+                        }))?? []
                     }
                 })
                 RoomManager.getInstance().broadcast(this.spaceId!,{
@@ -80,7 +85,9 @@ export  class User{
                     }
                 }
                 , this);
-                console.log("user joined")
+                // console.log("user joined")
+
+               
             
                 
 
@@ -90,19 +97,34 @@ export  class User{
                     const moveY = parsedData.payload.y;
                     const xDisplacement = Math.abs(this.x - moveX);
                     const yDisplacement = Math.abs(this.y - moveY);
+                    // console.log("x displacement " + xDisplacement)
+                    // console.log("y displacement " + yDisplacement)
                     if ((xDisplacement == 1 && yDisplacement== 0) || (xDisplacement == 0 && yDisplacement == 1)) {
                         this.x = moveX;
                         this.y = moveY;
+                        console.log("inside movement ")
+                        console.log("moved to x " + this.x)
+                        console.log("moved to y " + this.y)
+                        // this.send({
+                        //     type: "movement-accepted",
+                        //     payload: {
+                        //         x: this.x,
+                        //         y: this.y
+                        //     }
+                        // });
                         RoomManager.getInstance().broadcast( this.spaceId!,{
                             type: "movement",
+                            
                             payload: {
+                                userId : this.userId,
                                 x: this.x,
                                 y: this.y
                             }
                         }, this);
+                        
                         return;
                     }
-                    
+                    // console.log("inside movement rejected")
                     this.send({
                         type: "movement-rejected",
                         payload: {

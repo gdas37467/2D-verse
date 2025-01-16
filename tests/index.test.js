@@ -1249,7 +1249,7 @@ describe("websocket tests", () => {
     await setupWs();
   });
 
-  test.only("Get back ack for joining the space", async () => {
+  test("Get back ack for joining the space", async () => {
     console.log("insixce first test")
     ws1.send(JSON.stringify({
         "type": "join",
